@@ -1,16 +1,16 @@
 {
-  "name": "cylon-mqtt",
-  "version": "0.8.0",
-  "description": "Cylon module for MQTT",
+  "name": "cylon-awsiot",
+  "version": "0.1.0",
+  "description": "Cylon module for AWS Iot",
 
   "homepage": "http://cylonjs.com",
-  "bugs": "https://github.com/hybridgroup/cylon-mqtt/issues",
+  "bugs": "https://github.com/javierder/cylon-awsiot/issues",
 
-  "author": "The Hybrid Group <cylonjs@hybridgroup.com>",
+  "author": "Javier Derderyan <javierder@gmail.com>",
 
   "repository": {
     "type": "git",
-    "url": "https://github.com/hybridgroup/cylon-mqtt"
+    "url": "https://github.com/javierder/cylon-awsiot"
   },
 
   "license": "Apache-2.0",
@@ -24,8 +24,8 @@
     "robotics",
     "iot",
     "hardware",
-    "mqtt",
-    "m2m"
+    "aws",
+    "aws iot"
   ],
 
   "devDependencies": {
@@ -38,6 +38,6 @@
 
   "dependencies": {
     "cylon": "^1.2.0",
-    "mqtt": "^1.6.3"
+    "aws-iot-device-sdk": "^2.2.1"
   }
 }

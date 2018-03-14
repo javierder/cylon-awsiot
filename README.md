@@ -1,25 +1,18 @@
-# Cylon.js For MQTT
+# Cylon.js For AWS IoT
 
 Cylon.js (http://cylonjs.com) is a JavaScript framework for robotics, physical computing, and the Internet of Things (IoT).
 
-This repository contains the Cylon.js adaptor/driver for the MQTT messaging protocol. It uses the MQTT.js node module (https://github.com/adamvr/MQTT.js) created by [@adamvr](https://github.com/adamvr) and [@mcollina](https://github.com/mcollina), thank you!
+This repository contains the Cylon.js adaptor/driver for the AWS IoT libraries. It uses the aws-iot-device-sdk, provided by amazon.
 
-Want to use Ruby on robots? Check out our sister project Artoo (http://artoo.io)
-
-Want to use the Go programming language to power your robots? Check out our sister project Gobot (http://gobot.io).
-
-[![Build Status](https://secure.travis-ci.org/hybridgroup/cylon-mqtt.png?branch=master)](http://travis-ci.org/hybridgroup/cylon-mqtt) [![Code Climate](https://codeclimate.com/github/hybridgroup/cylon-mqtt/badges/gpa.svg)](https://codeclimate.com/github/hybridgroup/cylon-mqtt) [![Test Coverage](https://codeclimate.com/github/hybridgroup/cylon-mqtt/badges/coverage.svg)](https://codeclimate.com/github/hybridgroup/cylon-mqtt)
+This is forked from the cylon-mqtt adaptor/driver, very basic fork.
 
 ## How to Install
 
-Install `cylon-mqtt` through NPM:
+Install `cylon-awsiot` through NPM:
 
-    $ npm install cylon cylon-mqtt
+    $ npm install cylon cylon-awsiot
 
-Before using `cylon-mqtt`, you'll need to have a MQTT broker running in order to connect/publish/subscribe to messages.
-
-A good, simple broker is [mosca](https://github.com/mcollina/mosca).
-The developers have a [tutorial on using Mosca as a standalone service](https://github.com/mcollina/mosca/wiki/Mosca-as-a-standalone-service.).
+Before using `cylon-awsiot`, you'll need to setup your AWS IoT connection, and download the certificates and keys.
 
 ## How to Use
 
@@ -30,7 +23,15 @@ You can use the connection object only, in which case you have pub/sub access to
 ```javascript
 Cylon.robot({
   connections: {
-    server: { adaptor: 'mqtt', host: 'mqtt://localhost:1883' }
+    server: { adaptor: 'awsiot', 
+              host: '_amazon_provided_hsot',
+              port : 8883,
+              thingName : "Thing Name",
+              clientId : "Client ID 00",
+              caCert : "root-CA.crt",
+              clientCert : "certificate.pem.crt",
+              privateKey : "private.pem.key"
+           }
   },
 
   work: function(my) {
@@ -53,11 +54,11 @@ This can make it easier to keep track of different channels.
 ```javascript
 Cylon.robot({
   connections: {
-    server: { adaptor: 'mqtt', host: 'mqtt://localhost:1883' }
+    //sames as above
   },
 
   devices: {
-    hello: { driver: 'mqtt', topic: 'hello' }
+    hello: { driver: 'awsiot', topic: 'hello' }
   },
 
   work: function(my) {
@@ -72,100 +73,8 @@ Cylon.robot({
 })
 ```
 
-#### Simple
-
-```javascript
-var Cylon = require('cylon');
-
-Cylon.robot({
-  connections: {
-    server: { adaptor: 'mqtt', host: 'mqtt://localhost:1883' }
-  },
-
-  devices: {
-    hello: { driver: 'mqtt', topic: 'greetings' }
-  },
-
-  work: function(my) {
-    my.hello.on('message', function (data) {
-      console.log(data);
-    });
-
-    every((1).seconds(), function() {
-      console.log("Saying hello...");
-      my.hello.publish('hi there');
-    });
-  }
-}).start();
-```
-
-#### Arduino Blink
-
-```javascript
-var Cylon = require('cylon');
-
-Cylon.robot({
-  connections: {
-    mqtt: { adaptor: 'mqtt', host: 'mqtt://localhost:1883' },
-    firmata: { adaptor: 'firmata', port: '/dev/ttyACM0' }
-  },
-
-  devices: {
-    toggle: { driver: 'mqtt', topic: 'toggle', adaptor: 'mqtt' },
-    led: { driver: 'led', pin: '13', adaptor: 'firmata' },
-  },
-
-  work: function(my) {
-    my.toggle.on('message', function(data) {
-      console.log("Message on 'toggle': " + data);
-      my.led.toggle();
-    });
-
-    every((1).second(), function() {
-      console.log("Toggling LED.");
-      my.toggle.publish('toggle');
-    });
-  }
-}).start();
-```
-
-For more examples, please see the `examples` folder.
-
-## How to Connect
-
-```javascript
-var Cylon = require('cylon');
-
-Cylon.robot({
-  connections: {
-    server: { adaptor: 'mqtt', host: 'mqtt://localhost:1883' }
-  },
-
-  work: function(my) {
-    my.server.subscribe('hello');
-
-    my.server.on('message', function (topic, data) {
-      console.log(topic + ": " + data);
-    });
-
-    every((1).seconds(), function() {
-      console.log("Saying hello...");
-      my.server.publish('hello', 'hi there');
-    });
-  }
-}).start();
-```
-
-### Authentication
-
-```
-    mqtt: { adaptor: "mqtt", host: "mqtt://localhost:1883",
-            username: "iamuser", password: "sosecure" },
-```
-
 ## Documentation
-
-We're busy adding documentation to [cylonjs.com](http://cylonjs.com). Please check there as we continue to work on Cylon.js.
+This is just the initial fork.
 
 Thank you!
 

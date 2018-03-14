@@ -4,8 +4,8 @@ var Adaptor = require("./lib/adaptor"),
     Driver = require("./lib/driver");
 
 module.exports = {
-  adaptors: ["mqtt"],
-  drivers: ["mqtt"],
+  adaptors: ["awsiot"],
+  drivers: ["awsiot"],
 
   adaptor: function(opts) {
     return new Adaptor(opts);
